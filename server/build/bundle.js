@@ -7055,19 +7055,36 @@ module.exports = memoizeStringOnly;
 "use strict";
 
 
-var express = __webpack_require__(53);
-var React = __webpack_require__(21);
-var renderToString = __webpack_require__(109).renderToString;
-var Home = __webpack_require__(118).default;
-var app = express();
+var _express = __webpack_require__(53);
+
+var _express2 = _interopRequireDefault(_express);
+
+var _react = __webpack_require__(21);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _server = __webpack_require__(109);
+
+var _Home = __webpack_require__(118);
+
+var _Home2 = _interopRequireDefault(_Home);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var app = (0, _express2.default)();
+
+app.use(_express2.default.static('public'));
 
 app.get('/', function (req, res) {
-    var content = renderToString(React.createElement(Home, null));
-    res.send(content);
+  var content = (0, _server.renderToString)(_react2.default.createElement(_Home2.default, null));
+
+  var html = '\n    <html>\n    <head></head>\n    <body>\n         <div>' + content + '</div>\n         <script src="bundle.js"></script>\n    </body>\n</html>\n    ';
+
+  res.send(html);
 });
 
 app.listen(3000, function () {
-    console.log('Listen on port 3000');
+  console.log('Listen on port 3000');
 });
 
 /***/ }),
@@ -22672,7 +22689,7 @@ module.exports = camelize;
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+	value: true
 });
 
 var _react = __webpack_require__(21);
@@ -22682,11 +22699,22 @@ var _react2 = _interopRequireDefault(_react);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Home = function Home() {
-    return _react2.default.createElement(
-        'div',
-        null,
-        'I\'m the home component'
-    );
+	return _react2.default.createElement(
+		'div',
+		null,
+		_react2.default.createElement(
+			'div',
+			null,
+			'I\'m the vvvery home component'
+		),
+		_react2.default.createElement(
+			'button',
+			{ onClick: function onClick() {
+					return console.log('Hi there!');
+				} },
+			'Press me'
+		)
+	);
 };
 
 exports.default = Home;
