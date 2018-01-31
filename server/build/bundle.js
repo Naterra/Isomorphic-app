@@ -90,7 +90,7 @@ var app = (0, _express2.default)();
 
 app.use(_express2.default.static('public'));
 
-app.get('/', function (req, res) {
+app.get('*', function (req, res) {
 	res.send((0, _renderer2.default)(req));
 });
 
@@ -218,7 +218,7 @@ exports.default = function () {
         null,
         _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _Home2.default })
     );
-};
+}; //http://react-ssr-api.herokuapp.com/
 
 /***/ })
 /******/ ]);
