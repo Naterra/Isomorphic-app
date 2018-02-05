@@ -38896,6 +38896,10 @@ var _UsersListPage = __webpack_require__(477);
 
 var _UsersListPage2 = _interopRequireDefault(_UsersListPage);
 
+var _NotFoundPage = __webpack_require__(482);
+
+var _NotFoundPage2 = _interopRequireDefault(_NotFoundPage);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = [_extends({}, _App2.default, {
@@ -38904,7 +38908,7 @@ exports.default = [_extends({}, _App2.default, {
 		exact: true
 	}), _extends({}, _UsersListPage2.default, {
 		path: '/users'
-	})]
+	}), _extends({}, _NotFoundPage2.default)]
 })];
 
 // export default ()=>{
@@ -38980,18 +38984,16 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var Home = function Home() {
 	return _react2.default.createElement(
 		'div',
-		null,
+		{ className: 'center-align', style: { marginTop: '200px' } },
 		_react2.default.createElement(
-			'div',
+			'h3',
 			null,
-			'I\'m the vvvery home component'
+			'Welcome'
 		),
 		_react2.default.createElement(
-			'button',
-			{ onClick: function onClick() {
-					return console.log('Hi there!');
-				} },
-			'Press me'
+			'p',
+			null,
+			'Check out these awesome feautures'
 		)
 	);
 };
@@ -39249,6 +39251,40 @@ exports.default = function () {
 };
 
 var _actions = __webpack_require__(182);
+
+/***/ }),
+/* 482 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _react = __webpack_require__(6);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var NotFoundPage = function NotFoundPage(_ref) {
+    var _ref$staticContext = _ref.staticContext,
+        staticContext = _ref$staticContext === undefined ? {} : _ref$staticContext;
+
+    staticContext.notFound = true;
+
+    return _react2.default.createElement(
+        'h1',
+        null,
+        'Ooops, route not found.'
+    );
+};
+
+exports.default = {
+    component: NotFoundPage
+};
 
 /***/ })
 /******/ ]);
