@@ -306,36 +306,42 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var app = (0, _express2.default)();
 
 app.use('/api', (0, _expressHttpProxy2.default)('http://react-ssr-api.herokuapp.com', {
-	proxyReqOptDecorator: function proxyReqOptDecorator(opts) {
-		opts.headers['x-forwarded-host'] = 'localhost:3000';
-		return opts;
-	}
+    proxyReqOptDecorator: function proxyReqOptDecorator(opts) {
+        opts.headers['x-forwarded-host'] = 'localhost:3000';
+        return opts;
+    }
 }));
 app.use(_express2.default.static('public'));
 
 app.get('*', function (req, res) {
-	var store = (0, _createStore2.default)(req);
+    var store = (0, _createStore2.default)(req);
 
-	var promises = (0, _reactRouterConfig.matchRoutes)(_Routes2.default, req.path).map(function (_ref) {
-		var route = _ref.route;
+    var promises = (0, _reactRouterConfig.matchRoutes)(_Routes2.default, req.path).map(function (_ref) {
+        var route = _ref.route;
 
-		return route.loadData ? route.loadData(store) : null;
-	});
+        return route.loadData ? route.loadData(store) : null;
+    }).map(function (promise) {
+        if (promise) {
+            return new Promise(function (resolve, reject) {
+                promise.then(resolve).catch(resolve);
+            });
+        }
+    });
 
-	Promise.all(promises).then(function () {
-		var context = {};
-		var content = (0, _renderer2.default)(req, store, context);
+    Promise.all(promises).then(function () {
+        var context = {};
+        var content = (0, _renderer2.default)(req, store, context);
 
-		if (context.notFound) {
-			res.status(404);
-		}
+        if (context.notFound) {
+            res.status(404);
+        }
 
-		res.send(content);
-	});
+        res.send(content);
+    });
 });
 
 app.listen(3000, function () {
-	console.log('Listen on port 3000');
+    console.log('Listen on port 3000');
 });
 
 /***/ }),
