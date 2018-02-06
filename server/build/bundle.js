@@ -541,7 +541,7 @@ exports.default = {
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+	value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -554,6 +554,8 @@ var _reactRedux = __webpack_require__(2);
 
 var _actions = __webpack_require__(1);
 
+var _reactHelmet = __webpack_require__(28);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -563,60 +565,75 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var UsersList = function (_Component) {
-    _inherits(UsersList, _Component);
+	_inherits(UsersList, _Component);
 
-    function UsersList() {
-        _classCallCheck(this, UsersList);
+	function UsersList() {
+		_classCallCheck(this, UsersList);
 
-        return _possibleConstructorReturn(this, (UsersList.__proto__ || Object.getPrototypeOf(UsersList)).apply(this, arguments));
-    }
+		return _possibleConstructorReturn(this, (UsersList.__proto__ || Object.getPrototypeOf(UsersList)).apply(this, arguments));
+	}
 
-    _createClass(UsersList, [{
-        key: 'componentDidMount',
-        value: function componentDidMount() {
-            this.props.fetchUsers();
-        }
-    }, {
-        key: 'renderUsers',
-        value: function renderUsers() {
-            return this.props.users.map(function (user) {
-                return _react2.default.createElement(
-                    'li',
-                    { key: user.id },
-                    user.name
-                );
-            });
-        }
-    }, {
-        key: 'render',
-        value: function render() {
-            return _react2.default.createElement(
-                'div',
-                null,
-                'Here\'s a big list of users',
-                _react2.default.createElement(
-                    'ul',
-                    null,
-                    this.renderUsers()
-                )
-            );
-        }
-    }]);
+	_createClass(UsersList, [{
+		key: 'componentDidMount',
+		value: function componentDidMount() {
+			this.props.fetchUsers();
+		}
+	}, {
+		key: 'renderUsers',
+		value: function renderUsers() {
+			return this.props.users.map(function (user) {
+				return _react2.default.createElement(
+					'li',
+					{ key: user.id },
+					user.name
+				);
+			});
+		}
+	}, {
+		key: 'head',
+		value: function head() {
+			return _react2.default.createElement(
+				_reactHelmet.Helmet,
+				null,
+				_react2.default.createElement(
+					'title',
+					null,
+					this.props.users.length + ' Users Loaded'
+				),
+				_react2.default.createElement('meta', { property: 'og:title', content: 'Users App' })
+			);
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			return _react2.default.createElement(
+				'div',
+				null,
+				this.head(),
+				'Here\'s a big list of users',
+				_react2.default.createElement(
+					'ul',
+					null,
+					this.renderUsers()
+				)
+			);
+		}
+	}]);
 
-    return UsersList;
+	return UsersList;
 }(_react.Component);
 
 function mapStateToProps(state) {
-    return { users: state.users };
+	return { users: state.users };
 }
 
 function loadData(store) {
-    return store.dispatch((0, _actions.fetchUsers)());
+	return store.dispatch((0, _actions.fetchUsers)());
 }
 
 exports.default = {
-    loadData: loadData,
-    component: (0, _reactRedux.connect)(mapStateToProps, { fetchUsers: _actions.fetchUsers })(UsersList)
+	loadData: loadData,
+	component: (0, _reactRedux.connect)(mapStateToProps, { fetchUsers: _actions.fetchUsers })(UsersList)
 };
 
 /***/ }),
@@ -775,6 +792,8 @@ var _serializeJavascript = __webpack_require__(19);
 
 var _serializeJavascript2 = _interopRequireDefault(_serializeJavascript);
 
+var _reactHelmet = __webpack_require__(28);
+
 var _Routes = __webpack_require__(4);
 
 var _Routes2 = _interopRequireDefault(_Routes);
@@ -796,7 +815,9 @@ exports.default = function (req, store, context) {
     )
   ));
 
-  return '\n        <html>\n            <head>\n            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">\n\n\t\t</head>\n            <body>\n                 <div id="root">' + content + '</div>\n                 <script>\n                 \twindow.INITIAL_STATE =' + (0, _serializeJavascript2.default)(store.getState()) + '\n\t\t\t\t </script>\n                 <script src="bundle.js"></script>\n            </body>\n        </html>\n    ';
+  var helmet = _reactHelmet.Helmet.renderStatic();
+
+  return '\n        <html>\n            <head>\n            ' + helmet.title.toString() + '\n            ' + helmet.meta.toString() + '\n            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">\n\n\t\t</head>\n            <body>\n                 <div id="root">' + content + '</div>\n                 <script>\n                 \twindow.INITIAL_STATE =' + (0, _serializeJavascript2.default)(store.getState()) + '\n\t\t\t\t </script>\n                 <script src="bundle.js"></script>\n            </body>\n        </html>\n    ';
 };
 
 /***/ }),
@@ -1037,6 +1058,12 @@ exports.default = function (ChildComponent) {
 
     return (0, _reactRedux.connect)(mapStateToProps)(RequireAuth);
 };
+
+/***/ }),
+/* 28 */
+/***/ (function(module, exports) {
+
+module.exports = require("react-helmet");
 
 /***/ })
 /******/ ]);
